@@ -4,13 +4,13 @@ By: Samuel Fauteux 2530005
 
 # Controls
 ## Go Left
-Keyboard: left key or a
+Keyboard: left key or a \n
 Controller: joystick left or d-pad left
 ## Go Right
-Keyboard: right key or d
+Keyboard: right key or d \n
 Controller: joystick right or d-pad right
 ## Jump
-Keyboard: up key or w or space key
+Keyboard: up key or w or space key \n
 Controller: a/x (south button) or d-pad up
 ## Wall Jump
 Go towards the wall to stick to it and then jump.
