@@ -3215,8 +3215,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280361251
-  m_fontColor: {r: 0.13725491, g: 0.12941177, b: 0.12941177, a: 1}
+    rgba: 4282400836
+  m_fontColor: {r: 0.2679245, g: 0.25023136, b: 0.25023136, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3233,14 +3233,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -4687,6 +4687,8 @@ MonoBehaviour:
   gold: {fileID: 995781612}
   time: {fileID: 536856506}
   pausePanel: {fileID: 2098758474}
+  questPanel: {fileID: 600093262}
+  placeholderQuest: {fileID: 910421075}
   gameIsPaused: 0
 --- !u!4 &1094559756
 Transform:
