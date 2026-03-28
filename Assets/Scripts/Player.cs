@@ -75,8 +75,9 @@ public class Player : MonoBehaviour
     public void OnDisable()
     {
         inputAction.Player.Jump.canceled -= OnJumpCanceled;
-        inputAction.Player.Jump.performed += OnJumpPerformed;
+        inputAction.Player.Jump.performed -= OnJumpPerformed;
         inputAction.Player.Jump.Disable();
+
         inputAction.Player.Move.canceled -= OnMoveCanceled;
         inputAction.Player.Move.performed -= OnMovePerformed;
         inputAction.Player.Move.Disable();
