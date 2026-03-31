@@ -15,7 +15,6 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private TMP_Text placeholderQuest;
 
     private InputSystem_Actions inputAction;
-    private List<Quest> quests;
     private Dictionary<Quest, TMP_Text> questToObjectDict;
 
     public bool gameIsPaused = false;
@@ -29,15 +28,17 @@ public class GUIManager : MonoBehaviour
         pausePanel.SetActive(false);
         questPanel.SetActive(false);
 
-        quests = new List<Quest>() { // quests should probably be their own class, but this is for the sake of exemple 
-            new Quest("Get 1 coin", () => goldCount >= 1), 
-            new Quest("Get 5 coins", () => goldCount >= 5), 
-            new Quest("Get 17 coins", () => goldCount >= 17)
-        };
+        // Making a few quests for the sake of exemple.
+        // They do not have to be created in this class
+        // (they are stored in Quest when I call its constructor) 
+        new Quest("Get 1 coin", () => goldCount >= 1);
+        new Quest("Get 5 coins", () => goldCount >= 5);
+        new Quest("Get 17 coins", () => goldCount >= 17);
+
         questToObjectDict = new Dictionary<Quest, TMP_Text>();
 
         // Instanciate Quests
-        for (int i = 0; i < quests.Count; ++i)
+        for (int i = 0; i < Quest.quests.Count; ++i)
         {
             TMP_Text tmp_quest;
 
@@ -50,9 +51,9 @@ public class GUIManager : MonoBehaviour
                 tmp_quest = Instantiate(placeholderQuest, questBoard.transform);
             }
 
-            tmp_quest.text = quests[i].Display;
+            tmp_quest.text = Quest.quests[i].Display;
 
-            questToObjectDict.Add(quests[i], tmp_quest);
+            questToObjectDict.Add(Quest.quests[i], tmp_quest);
         }
     }
 
@@ -120,7 +121,7 @@ public class GUIManager : MonoBehaviour
     { 
         questPanel.SetActive(true);
 
-        foreach(Quest quest in quests)
+        foreach(Quest quest in Quest.quests)
         {
             if (quest.DisplaycompletionCondition.Invoke())
             {

@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 
 public class Quest
 {
+    public static List<Quest> quests = new List<Quest>();
+
     private string display;
     private Func<bool> completionCondition;
 
@@ -9,6 +12,8 @@ public class Quest
     {
         this.display = display;
         this.completionCondition = completionCondition;
+
+        quests.Add(this);
     }
 
     public string Display { get { return display; } }
