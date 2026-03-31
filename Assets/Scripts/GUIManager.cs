@@ -62,18 +62,12 @@ public class GUIManager : MonoBehaviour
         inputAction.UI.Pause.Enable();
         inputAction.UI.Pause.performed += OnPausePerformed;
 
-        inputAction.UI.Inventory.Enable();
-        inputAction.UI.Inventory.performed += OnInventoryPerformed;
-
         Coin.OnPickup += UpdateGold;
     }
 
     private void OnDisable()
     {
         Coin.OnPickup -= UpdateGold;
-
-        inputAction.UI.Inventory.performed -= OnInventoryPerformed;
-        inputAction.UI.Inventory.Disable();
 
         inputAction.UI.Pause.performed -= OnPausePerformed;
         inputAction.UI.Pause.Disable();
@@ -101,11 +95,6 @@ public class GUIManager : MonoBehaviour
         {
             Pause(true);
         }
-    }
-
-    private void OnInventoryPerformed(InputAction.CallbackContext context)
-    {
-
     }
 
     // Pause Menu Buttons
