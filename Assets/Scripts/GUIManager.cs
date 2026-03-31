@@ -11,10 +11,12 @@ public class GUIManager : MonoBehaviour
 
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject questPanel;
+    [SerializeField] private GameObject questBoard;
     [SerializeField] private TMP_Text placeholderQuest;
 
     private InputSystem_Actions inputAction;
     private List<Quest> quests;
+    private Dictionary<Quest, TMP_Text> questToObjectDict;
 
     public bool gameIsPaused = false;
 
@@ -32,6 +34,26 @@ public class GUIManager : MonoBehaviour
             new Quest("Get 5 coins", () => goldCount >= 5), 
             new Quest("Get 17 coins", () => goldCount >= 17)
         };
+        questToObjectDict = new Dictionary<Quest, TMP_Text>();
+
+        // Instanciate Quests
+        for (int i = 0; i < quests.Count; ++i)
+        {
+            TMP_Text tmp_quest;
+
+            if (i == 0)
+            {
+                tmp_quest = placeholderQuest;
+            }
+            else
+            {
+                tmp_quest = Instantiate(placeholderQuest, questBoard.transform);
+            }
+
+            tmp_quest.text = quests[i].Display;
+
+            questToObjectDict.Add(quests[i], tmp_quest);
+        }
     }
 
     private void OnEnable()
@@ -91,15 +113,32 @@ public class GUIManager : MonoBehaviour
         Unpause();
     }
 
+    // I've put the quests in the pause menu because it looked bad when always in sight
+    // but ironically, I think my way is less ressource intensive as I don't have a loop 
+    // in LateUpdate anymore!
     public void QuestsClicked()
     { 
         questPanel.SetActive(true);
+
+        foreach(Quest quest in quests)
+        {
+            if (quest.DisplaycompletionCondition.Invoke())
+            {
+                questToObjectDict[quest].fontStyle |= FontStyles.Strikethrough;
+            }
+        }
     }
 
     public void MainMenuClicked()
     {
         Unpause();
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
+
+    // // Quest Menu Buttons
+    public void BackClicked()
+    {
+        questPanel.SetActive(false);
     }
 
     // Misc
@@ -112,6 +151,7 @@ public class GUIManager : MonoBehaviour
 
     public void Unpause()
     {
+        questPanel.SetActive(false);
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
