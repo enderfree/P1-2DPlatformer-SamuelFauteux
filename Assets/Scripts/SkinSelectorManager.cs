@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 public class SkinSelectorManager : MonoBehaviour
 {
@@ -56,10 +57,25 @@ public class SkinSelectorManager : MonoBehaviour
         isHighlighted = typeof(Selectable).GetMethod("IsHighlighted", BindingFlags.Instance | BindingFlags.NonPublic);
 
         // get selector Images since I couldn't get them through Serialized fields
-        blueSelectorImage = blueSelector.GetComponent<Image>();
-        greenSelectorImage = greenSelector.GetComponent<Image>();
-        redSelectorImage = redSelector.GetComponent<Image>();
-        blackSelectorImage = blackSelector.GetComponent<Image>();
+        if (!blueSelector.TryGetComponent<Image>(out blueSelectorImage))
+        {
+            throw new ArgumentNullException("SkinSelectionManager/Awake", "blueSelector's Image component was not found.");
+        }
+        
+        if(!greenSelector.TryGetComponent<Image>(out greenSelectorImage))
+        {
+            throw new ArgumentNullException("SkinSelectionManager/Awake", "greenSelector's Image component was not found.");
+        }
+        
+        if (!redSelector.TryGetComponent<Image>(out redSelectorImage))
+        {
+            throw new ArgumentNullException("SkinSelectionManager/Awake", "redSelector's Image component was not found.");
+        }
+        
+        if (!blackSelector.TryGetComponent<Image>(out blackSelectorImage))
+        {
+            throw new ArgumentNullException("SkinSelectionManager/Awake", "blackSelector's Image component was not found.");
+        }
 
         // get defaults
         DisableAllSelectors();
