@@ -17,5 +17,5 @@ public class Quest
     }
 
     public string Display { get { return display; } }
-    public Func<bool> DisplaycompletionCondition { get { return completionCondition; } }
+    public Func<bool> CompletionCondition { get { return completionCondition; } }
 }

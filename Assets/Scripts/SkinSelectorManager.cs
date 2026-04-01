@@ -11,7 +11,6 @@ public class SkinSelectorManager : MonoBehaviour
     [SerializeField] private GameObject skinSelectionPanel;
 
     [Header("Tooltip")]
-    [SerializeField] private GameObject tooltipPanel;
     [SerializeField] private TMP_Text tooltipTitle;
     [SerializeField] private TMP_Text tooltipDescription;
 
@@ -44,6 +43,12 @@ public class SkinSelectorManager : MonoBehaviour
     private bool skinSelectorIsOpen = false;
     private string tooltipActive = "";
 
+    // is skin unlocked
+    private bool blueSkinUnlocked = false;
+    private bool greenSkinUnlocked = false;
+    private bool redSkinUnlocked = false;
+    private bool blackSkinUnlocked = false;
+
     private void Awake()
     {
         // get non-serialized variables
@@ -62,7 +67,6 @@ public class SkinSelectorManager : MonoBehaviour
         tooltipActive = "blue";
 
         // disable stuff
-        tooltipPanel.SetActive(false);
         skinSelectionPanel.SetActive(false);
     }
 
@@ -84,37 +88,69 @@ public class SkinSelectorManager : MonoBehaviour
         {
             if ((bool)isHighlighted.Invoke(blueButton, null))
             {
-                tooltipActive = "blue";
+                if (tooltipActive != "blue")
+                {
+                    tooltipActive = "blue";
+                    DrawTooltip();
+                }
             }
             else if ((bool)isHighlighted.Invoke(greenButton, null))
             {
-                tooltipActive = "green";
+                if (tooltipActive != "green")
+                {
+                    tooltipActive = "green";
+                    DrawTooltip();
+                }
             }
             else if ((bool)isHighlighted.Invoke(redButton, null))
             {
-                tooltipActive = "red";
+                if (tooltipActive != "red")
+                {
+                    tooltipActive = "red";
+                    DrawTooltip();
+                }
             }
             else if ((bool)isHighlighted.Invoke(blackButton, null))
             {
-                tooltipActive = "black";
+                if (tooltipActive != "black")
+                {
+                    tooltipActive = "black";
+                    DrawTooltip();
+                }
             }
             else
             {
                 if (blueSelectorImage.enabled)
                 {
-                    tooltipActive = "blue";
+                    if (tooltipActive != "blue")
+                    {
+                        tooltipActive = "blue";
+                        DrawTooltip();
+                    }
                 }
                 else if (greenSelectorImage.enabled)
                 {
-                    tooltipActive = "green";
+                    if (tooltipActive != "green")
+                    {
+                        tooltipActive = "green";
+                        DrawTooltip();
+                    }
                 }
                 else if (redSelectorImage.enabled)
                 {
-                    tooltipActive = "red";
+                    if (tooltipActive != "red")
+                    {
+                        tooltipActive = "red";
+                        DrawTooltip();
+                    }
                 }
                 else if (blackSelectorImage.enabled)
                 {
-                    tooltipActive = "black";
+                    if (tooltipActive != "black")
+                    {
+                        tooltipActive = "black";
+                        DrawTooltip();
+                    }
                 }
                 else
                 {
@@ -123,20 +159,6 @@ public class SkinSelectorManager : MonoBehaviour
                         "It is likely due to a faulty new implementation.");
                     tooltipActive = "";
                 }
-            }
-
-            if (tooltipActive != "")
-            {
-                if (!tooltipPanel.activeSelf)
-                {
-                    tooltipPanel.SetActive(true);
-                }
-
-                DrawTooltip();
-            }
-            else
-            { 
-                tooltipPanel.SetActive(false);
             }
         }
     }
@@ -159,30 +181,42 @@ public class SkinSelectorManager : MonoBehaviour
     // Buttons
     public void BlueButtonClicked()
     {
-        DisableAllSelectors();
-        blueSelector.GetComponent<Image>().enabled = true;
-        playerRenderer.material = blueSkin.Material;
+        if (blueSkinUnlocked)
+        {
+            DisableAllSelectors();
+            blueSelectorImage.enabled = true;
+            playerRenderer.material = blueSkin.Material;
+        }
     }
 
     public void GreenButtonClicked()
     {
-        DisableAllSelectors();
-        greenSelector.GetComponent<Image>().enabled = true;
-        playerRenderer.material = greenSkin.Material;
+        if (greenSkinUnlocked)
+        {
+            DisableAllSelectors();
+            greenSelectorImage.enabled = true;
+            playerRenderer.material = greenSkin.Material;
+        }
     }
 
     public void RedButtonClicked()
     {
-        DisableAllSelectors();
-        redSelector.GetComponent<Image>().enabled = true;
-        playerRenderer.material = redSkin.Material;
+        if (redSkinUnlocked)
+        {
+            DisableAllSelectors();
+            redSelectorImage.enabled = true;
+            playerRenderer.material = redSkin.Material;
+        }
     }
 
     public void BlackButtonClicked()
     {
-        DisableAllSelectors();
-        blackSelector.GetComponent<Image>().enabled = true;
-        playerRenderer.material = blackSkin.Material;
+        if (blackSkinUnlocked)
+        {
+            DisableAllSelectors();
+            blackSelectorImage.enabled = true;
+            playerRenderer.material = blackSkin.Material;
+        }
     }
 
     // Misc
@@ -196,23 +230,85 @@ public class SkinSelectorManager : MonoBehaviour
 
     private void DrawTooltip()
     {
+        tooltipTitle.text = "Locked!!!";
+        tooltipDescription.text = "To unlock this skin, you must have completed the following quest: \n";
+
         switch (tooltipActive)
         {
             case "blue":
-                tooltipTitle.text = blueSkin.name;
-                tooltipDescription.text = blueSkin.Description;
+                blueSkinUnlocked = true; // this one is unlocked by default
+
+                if (blueSkinUnlocked)
+                {
+                    tooltipTitle.color = Color.white;
+                    tooltipDescription.color = Color.white;
+
+                    tooltipTitle.text = blueSkin.name;
+                    tooltipDescription.text = blueSkin.Description;
+                }
+                else
+                {
+                    Debug.LogWarning("SkinSelectorManager/DrawTooltip: " +
+                        "the blue skin is supposed to be unlocked by default," +
+                        " so this message should never be shown.");
+                }
                 break;
             case "green":
-                tooltipTitle.text = greenSkin.name;
-                tooltipDescription.text = greenSkin.Description;
+                greenSkinUnlocked = Quest.quests[0].CompletionCondition.Invoke();
+
+                if (greenSkinUnlocked)
+                {
+                    tooltipTitle.color = Color.white;
+                    tooltipDescription.color = Color.white;
+
+                    tooltipTitle.text = greenSkin.name;
+                    tooltipDescription.text = greenSkin.Description;
+                }
+                else
+                {
+                    tooltipTitle.color = Color.red;
+                    tooltipDescription.color = Color.red;
+
+                    tooltipDescription.text += Quest.quests[0].Display;
+                }
                 break;
             case "red":
-                tooltipTitle.text = redSkin.name;
-                tooltipDescription.text = redSkin.Description;
+                redSkinUnlocked = Quest.quests[1].CompletionCondition.Invoke();
+
+                if (redSkinUnlocked)
+                {
+                    tooltipTitle.color = Color.white;
+                    tooltipDescription.color = Color.white;
+
+                    tooltipTitle.text = redSkin.name;
+                    tooltipDescription.text = redSkin.Description;
+                }
+                else
+                {
+                    tooltipTitle.color = Color.red;
+                    tooltipDescription.color = Color.red;
+
+                    tooltipDescription.text += Quest.quests[1].Display;
+                }
                 break;
             case "black":
-                tooltipTitle.text = blackSkin.name;
-                tooltipDescription.text = blackSkin.Description;
+                blackSkinUnlocked = Quest.quests[0].CompletionCondition.Invoke();
+
+                if (blackSkinUnlocked)
+                {
+                    tooltipTitle.color = Color.white;
+                    tooltipDescription.color = Color.white;
+
+                    tooltipTitle.text = blackSkin.name;
+                    tooltipDescription.text = blackSkin.Description;
+                }
+                else
+                {
+                    tooltipTitle.color = Color.red;
+                    tooltipDescription.color = Color.red;
+
+                    tooltipDescription.text += Quest.quests[2].Display;
+                }
                 break;
             default:
                 Debug.LogWarning("SkinSelectorManager/DrawTooltip: " +

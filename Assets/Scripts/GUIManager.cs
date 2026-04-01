@@ -112,7 +112,7 @@ public class GUIManager : MonoBehaviour
 
         foreach(Quest quest in Quest.quests)
         {
-            if (quest.DisplaycompletionCondition.Invoke())
+            if (quest.CompletionCondition.Invoke())
             {
                 questToObjectDict[quest].fontStyle |= FontStyles.Strikethrough;
             }
