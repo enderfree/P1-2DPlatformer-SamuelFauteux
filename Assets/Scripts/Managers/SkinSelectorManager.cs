@@ -33,6 +33,10 @@ public class SkinSelectorManager : MonoBehaviour
     private Image blackSelectorImage;
 
     [Header("Skins")]
+    // The Skin objects are used here as they contain: 
+    // - The material that will be applied on the character when the color is clicked (Skin.Material)
+    // - The Title used in the tooltip (Skin.Name)
+    // - The Description of each skin (Skin.Description)
     [SerializeField] private Skin blueSkin;
     [SerializeField] private Skin greenSkin;
     [SerializeField] private Skin redSkin;
@@ -259,7 +263,7 @@ public class SkinSelectorManager : MonoBehaviour
                     tooltipTitle.color = Color.white;
                     tooltipDescription.color = Color.white;
 
-                    tooltipTitle.text = blueSkin.name;
+                    tooltipTitle.text = blueSkin.Name;
                     tooltipDescription.text = blueSkin.Description;
                 }
                 else
@@ -277,7 +281,7 @@ public class SkinSelectorManager : MonoBehaviour
                     tooltipTitle.color = Color.white;
                     tooltipDescription.color = Color.white;
 
-                    tooltipTitle.text = greenSkin.name;
+                    tooltipTitle.text = greenSkin.Name;
                     tooltipDescription.text = greenSkin.Description;
                 }
                 else
@@ -296,7 +300,7 @@ public class SkinSelectorManager : MonoBehaviour
                     tooltipTitle.color = Color.white;
                     tooltipDescription.color = Color.white;
 
-                    tooltipTitle.text = redSkin.name;
+                    tooltipTitle.text = redSkin.Name;
                     tooltipDescription.text = redSkin.Description;
                 }
                 else
@@ -315,7 +319,7 @@ public class SkinSelectorManager : MonoBehaviour
                     tooltipTitle.color = Color.white;
                     tooltipDescription.color = Color.white;
 
-                    tooltipTitle.text = blackSkin.name;
+                    tooltipTitle.text = blackSkin.Name;
                     tooltipDescription.text = blackSkin.Description;
                 }
                 else
